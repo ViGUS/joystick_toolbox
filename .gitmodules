@@ -1,0 +1,3 @@
+[submodule "simple_sockets_cpp"]
+	path = simple_sockets_cpp
+	url = https://github.com/ViGUS/simple_sockets_cpp
