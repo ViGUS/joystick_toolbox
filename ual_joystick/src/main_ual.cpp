@@ -15,7 +15,7 @@
 
 int main(int _argc, char **_argv) {
 
-    BOViL::comm::Socket *socket = BOViL::comm::Socket::createSocket(BOViL::comm::eSocketType::serverTCP, "9009", "localhost");
+    BOViL::comm::Socket *socket = BOViL::comm::Socket::createSocket(BOViL::comm::eSocketType::serverTCP, "9009", "0.0.0.0");
 
    if(socket->getSocketDescriptor() == -1){
 	std::cout << "Failed socket creation" << std::endl;

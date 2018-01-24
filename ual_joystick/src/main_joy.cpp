@@ -12,7 +12,7 @@
 #include <argument_parser/argument_parser.h>
 #include <fstream>
 
-#include </home/bardo91/programming/catkin_joystick/src/joystick_controller/include/joystick.h>
+#include <joystick_controller/Joystick.h>
 #include <unistd.h>
 
 #include <simple_sockets_cpp/com/Socket.h>

@@ -12,7 +12,7 @@
 //
 // Copyright Drew Noakes 2013-2016
 
-#include <joystick.h>
+#include <joystick_controller/Joystick.h>
 #include <unistd.h>
 
 int main(int argc, char** argv)
