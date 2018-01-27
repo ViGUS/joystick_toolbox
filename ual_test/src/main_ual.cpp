@@ -25,11 +25,11 @@ int main(int _argc, char **_argv) {
     int cmd;
 	double value;
     while(ros::ok()){
-		std::cout << "Options: 0) takeoff; 1) land; 2) step X; 3) step Y; 4) step Z" << std::endl;
+		std::cout << "Options: 0) takeoff; 1) land; 2) step X; 3) step Y; 4) step Z; 5) circle; 6) eight shape" << std::endl;
 		std::cin >> cmd;
 		switch(cmd){
 		case 0:
-			std::cout << "Desired take off altitude: "
+			std::cout << "Desired take off altitude: ";
 			std::cin >> value;
 			mUal.takeOff(value);
 			break;
@@ -37,26 +37,58 @@ int main(int _argc, char **_argv) {
 			mUal.land(true);
 			break;
 		case 2:
-			std::cout << "Desired step in X: "
+			std::cout << "Desired step in X: ";
 			std::cin >> value;
 			pose = mUal.pose();
 			pose.pose.position.x +=value;
 			mUal.goToWaypoint(pose);
 			break;
 		case 3:
-			std::cout << "Desired step in Y: "
+			std::cout << "Desired step in Y: ";
 			std::cin >> value;
 			pose = mUal.pose();
 			pose.pose.position.y +=value;
 			mUal.goToWaypoint(pose);
 			break;
 		case 4:
-			std::cout << "Desired step in Z: "
+			std::cout << "Desired step in Z: ";
 			std::cin >> value;
 			pose = mUal.pose();
 			pose.pose.position.z +=value;
 			mUal.goToWaypoint(pose);
 			break;
+		case 5:
+		{
+			std::cout << "Radius of circle: ";
+			std::cin >> value;
+			std::vector<geometry_msgs::PoseStamped> poses;
+			pose = mUal.pose();
+			for(unsigned i = 0; i < 16; i++){
+				auto cirPose = pose;
+				cirPose.pose.position.x += value*cos(2*M_PI/16*i);
+				cirPose.pose.position.y += value*sin(2*M_PI/16*i);
+				poses.push_back(cirPose);
+			}
+			for(auto &pos: poses){
+				mUal.goToWaypoint(pos);
+			}
+		}
+		case 6:
+		{
+			std::cout << "Radius of eight: ";
+			std::cin >> value;
+			std::vector<geometry_msgs::PoseStamped> poses;
+			pose = mUal.pose();
+			for(unsigned i = 0; i < 16; i++){
+				auto eigPose = pose;
+				eigPose.pose.position.x += value*sin(2*M_PI/16*i);
+				eigPose.pose.position.y += value*sin(2*M_PI/16*i)*cos(2*M_PI/16*i);
+				poses.push_back(eigPose);
+			}
+			for(auto &pos: poses){
+				mUal.goToWaypoint(pos);
+			}
+		}
 		default:
 			std::cout << "unknown command" << std::endl;
 		}
