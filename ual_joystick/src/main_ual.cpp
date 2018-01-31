@@ -108,23 +108,24 @@ int main(int _argc, char **_argv) {
     bool hold = false;
     geometry_msgs::PoseStamped holdPose;
     while(ros::ok() && !landSignal){
-	auto timeSinceLast = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - tReception).count();
-	if(timeSinceLast < 2000){
-		hold = false;
-		targetSpeed.header.stamp = ros::Time::now();
-		mUal.setVelocity(targetSpeed);
-		//std::cout << targetSpeed << std::endl;
-	
-	}else{
-		if(!hold){
-			holdPose = mUal.pose();
-			hold = true;
+		auto timeSinceLast = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - tReception).count();
+		if(timeSinceLast < 500){
+			hold = false;
+			targetSpeed.header.stamp = ros::Time::now();
+			mUal.setVelocity(targetSpeed);
+			//std::cout << targetSpeed << std::endl;
+		
+		}else{
+    		targetSpeed = geometry_msgs::TwistStamped();   
+			if(!hold){
+				holdPose = mUal.pose();
+				hold = true;
+			}
 		}
-	}
 
     	if(hold){
-		mUal.goToWaypoint(holdPose, false);
-	}
+			mUal.goToWaypoint(holdPose, false);
+		}
        std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
 
