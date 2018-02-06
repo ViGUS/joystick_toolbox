@@ -31,9 +31,6 @@ GroupSources(src)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/" ${CMAKE_MODULE_PATH})
 
-## Load opencv
-find_package(OpenCV 3 REQUIRED)
-set_target_properties(${OpenCV_LIBS} PROPERTIES MAP_IMPORTED_CONFIG_RELWITHDEBINFO RELEASE)
 
 find_package(catkin REQUIRED COMPONENTS
 			geometry_msgs
@@ -47,22 +44,6 @@ catkin_package(
   CATKIN_DEPENDS roscpp std_msgs  uav_abstraction_layer geometry_msgs argument_parser joystick_controller
 )
 
-
-## Load PCL
-find_package(PCL QUIET REQUIRED)
-if(${PCL_FOUND} AND ${VTK_FOUND} AND ${Boost_FOUND} AND ${FLANN_FOUND} STREQUAL "TRUE")
-	MESSAGE( STATUS "Adding properly PCL and its dependencies")
-	add_definitions(-DENABLE_PCL)
-	add_definitions(${PCL_DEFINITIONS})
-else()
-	MESSAGE( FATAL_ERROR "Couldnt Add PCL and/or it's dependencies")
-endif()
-
-## Loading boost
-if(WIN32)
-	set(Boost_USE_STATIC_LIBS ON)
-endif()
-find_package(Boost REQUIRED COMPONENTS chrono)
 
 #########################################
 ######			Executable		   ######
