@@ -25,7 +25,7 @@ int main(int _argc, char **_argv) {
     int cmd;
 	double value;
     while(ros::ok()){
-		std::cout << "Options: 0) takeoff; 1) land; 2) step X; 3) step Y; 4) step Z; 5) circle; 6) eight shape" << std::endl;
+		std::cout << "Options: 0) takeoff; 1) land; 2) step X; 3) step Y; 4) step Z; 5) circle; 6) eight shape; 7) show pose" << std::endl;
 		std::cin >> cmd;
 		switch(cmd){
 		case 0:
@@ -88,6 +88,12 @@ int main(int _argc, char **_argv) {
 			for(auto &pos: poses){
 				mUal.goToWaypoint(pos);
 			}
+		}
+		case 7:
+		{
+			std::cout << "Show pose from UAL" << std::endl;
+			pose = mUal.pose();
+			std::cout << "X: " << pose.pose.position.x << " | " << "Y: " << pose.pose.position.x << " | " << "Z: " << pose.pose.position.x << std::endl;
 		}
 		default:
 			std::cout << "unknown command" << std::endl;
