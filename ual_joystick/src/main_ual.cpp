@@ -96,10 +96,9 @@ int main(int _argc, char **_argv) {
 	}
     });
 
-    while(isLanded && !takeoffSignal){
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    while(!takeoffSignal){
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-    mUal.takeOff(3.0);
 
     std::this_thread::sleep_for(std::chrono::seconds(1));
 

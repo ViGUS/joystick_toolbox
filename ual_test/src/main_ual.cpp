@@ -95,6 +95,30 @@ int main(int _argc, char **_argv) {
 			pose = mUal.pose();
 			std::cout << "X: " << pose.pose.position.x << " | " << "Y: " << pose.pose.position.x << " | " << "Z: " << pose.pose.position.x << std::endl;
 		}
+		case 8:
+		{
+			float x, y, z;
+			std::cout << "Custom pose: ";
+			std::cout << "x: "; std::cin >> x;
+			std::cout << "y: "; std::cin >> y;
+			std::cout << "z: "; std::cin >> z;
+			pose = mUal.pose();
+			std::cout << "You wrote: " << x << ", " << y << ", " << z << std::endl;
+			std::cout << "And current pose is: " << pose.pose.position.x << ", " << pose.pose.position.y << ", " << pose.pose.position.z << std::endl;
+			std::cout << "Are you sure? press 1 ";
+			int val = 0;
+			std::cin >> val;
+			if(val != 1){
+				std::cout << "Skipping" << std::endl;
+				continue;
+			}			
+			std::cout << "Moving to: " << x << ", " << y << ", " << z << std::endl;
+			auto targetPose = mUal.pose();
+			targetPose.pose.position.x =x;
+			targetPose.pose.position.y =y;
+			targetPose.pose.position.z =z;
+			mUal.goToWaypoint(targetPose);
+		}
 		default:
 			std::cout << "unknown command" << std::endl;
 		}
