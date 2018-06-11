@@ -37,11 +37,10 @@ find_package(catkin REQUIRED COMPONENTS
 			std_msgs
 			roscpp
 			uav_abstraction_layer
-			argument_parser
 			)
 
 catkin_package(
-  CATKIN_DEPENDS roscpp std_msgs  uav_abstraction_layer geometry_msgs argument_parser joystick_controller
+  CATKIN_DEPENDS roscpp std_msgs  uav_abstraction_layer geometry_msgs joystick_controller
 )
 
 

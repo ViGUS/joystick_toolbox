@@ -9,13 +9,11 @@
 #include <uav_abstraction_layer/ual.h>
 #include <iostream>
 #include <string>
-#include <argument_parser/argument_parser.h>
 #include <fstream>
 
 int main(int _argc, char **_argv) {
-    grvc::utils::ArgumentParser argParser(_argc, _argv); 
 
-    grvc::ual::UAL mUal(argParser);
+    grvc::ual::UAL mUal(_argc, _argv);
     while (!mUal.isReady() && ros::ok()) {
         sleep(1);
     }
@@ -25,7 +23,7 @@ int main(int _argc, char **_argv) {
     int cmd;
 	double value;
     while(ros::ok()){
-		std::cout << "Options: 0) takeoff; 1) land; 2) step X; 3) step Y; 4) step Z; 5) circle; 6) eight shape; 7) show pose" << std::endl;
+		std::cout << "Options: 0) takeoff; 1) land; 2) step X; 3) step Y; 4) step Z; 5) WP1; 6) WP2; 7) WP3; 8) Show Pose; 9) Custom Pose" << std::endl;
 		std::cin >> cmd;
 		switch(cmd){
 		case 0:
@@ -58,44 +56,76 @@ int main(int _argc, char **_argv) {
 			mUal.goToWaypoint(pose);
 			break;
 		case 5:
-		{
-			std::cout << "Radius of circle: ";
-			std::cin >> value;
-			std::vector<geometry_msgs::PoseStamped> poses;
-			pose = mUal.pose();
-			for(unsigned i = 0; i < 16; i++){
-				auto cirPose = pose;
-				cirPose.pose.position.x += value*cos(2*M_PI/16*i);
-				cirPose.pose.position.y += value*sin(2*M_PI/16*i);
-				poses.push_back(cirPose);
-			}
-			for(auto &pos: poses){
-				mUal.goToWaypoint(pos);
-			}
+		{	
+			float x, y, z;
+			x = -1.902528;
+			y = 3.118153;
+			z = 2.361217;
+			std::cout << "Go to WP1: " << x << " , " << y << " , " << z << std::endl;
+			std::cout << "Are you sure? press 1 ";
+			int val = 0;
+			std::cin >> val;
+			if(val != 1){
+				std::cout << "Skipping" << std::endl;
+				continue;
+			}	
+			auto targetPose = mUal.pose();
+			targetPose.pose.position.x =x;
+			targetPose.pose.position.y =y;
+			targetPose.pose.position.z =z;
+			mUal.goToWaypoint(targetPose);
+			break;
 		}
 		case 6:
-		{
-			std::cout << "Radius of eight: ";
-			std::cin >> value;
-			std::vector<geometry_msgs::PoseStamped> poses;
-			pose = mUal.pose();
-			for(unsigned i = 0; i < 16; i++){
-				auto eigPose = pose;
-				eigPose.pose.position.x += value*sin(2*M_PI/16*i);
-				eigPose.pose.position.y += value*sin(2*M_PI/16*i)*cos(2*M_PI/16*i);
-				poses.push_back(eigPose);
-			}
-			for(auto &pos: poses){
-				mUal.goToWaypoint(pos);
-			}
+		{	
+			float x, y, z;
+			x = 1.192234;
+			y = 3.1057634;
+			z = 2.43994;
+			std::cout << "Go to WP2: "<< x << " , " << y << " , " << z << std::endl;
+			std::cout << "Are you sure? press 1 ";
+			int val = 0;
+			std::cin >> val;
+			if(val != 1){
+				std::cout << "Skipping" << std::endl;
+				continue;
+			}	
+			auto targetPose = mUal.pose();
+			targetPose.pose.position.x =x;
+			targetPose.pose.position.y =y;
+			targetPose.pose.position.z =z;
+			mUal.goToWaypoint(targetPose);
+			break;
 		}
 		case 7:
+		{	
+			float x, y, z;
+			x = 2.245302;
+			y = 3.154002;
+			z = 2.445038;
+			std::cout << "Go to WP3: " << x << " , " << y << " , " << z << std::endl;
+			std::cout << "Are you sure? press 1 ";
+			int val = 0;
+			std::cin >> val;
+			if(val != 1){
+				std::cout << "Skipping" << std::endl;
+				continue;
+			}	
+			auto targetPose = mUal.pose();
+			targetPose.pose.position.x =x;
+			targetPose.pose.position.y =y;
+			targetPose.pose.position.z =z;
+			mUal.goToWaypoint(targetPose);
+			break;
+		}
+		case 8:
 		{
 			std::cout << "Show pose from UAL" << std::endl;
 			pose = mUal.pose();
-			std::cout << "X: " << pose.pose.position.x << " | " << "Y: " << pose.pose.position.x << " | " << "Z: " << pose.pose.position.x << std::endl;
+			std::cout << "X: " << pose.pose.position.x << " | " << "Y: " << pose.pose.position.y << " | " << "Z: " << pose.pose.position.z << std::endl;
+			break;
 		}
-		case 8:
+		case 9:
 		{
 			float x, y, z;
 			std::cout << "Custom pose: ";
@@ -118,6 +148,7 @@ int main(int _argc, char **_argv) {
 			targetPose.pose.position.y =y;
 			targetPose.pose.position.z =z;
 			mUal.goToWaypoint(targetPose);
+			break;
 		}
 		default:
 			std::cout << "unknown command" << std::endl;

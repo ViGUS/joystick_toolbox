@@ -25,11 +25,9 @@
   <build_depend>std_msgs</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>uav_abstraction_layer</build_depend>
-  <build_depend>argument_parser</build_depend>
   <build_depend>joystick_controller</build_depend>
 
   <run_depend>joystick_controller</run_depend>
-  <run_depend>argument_parser</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>roscpp</run_depend>
